@@ -1,0 +1,47 @@
+import { Project } from '../types/project';
+
+export const INITIAL_PROJECTS: Project[] = [
+  {
+    id: 'PKS-994KY1',
+    code: 'PKS-994KY1',
+    name: 'Revitalisasi Mangrove Teluk Benoa',
+    description: 'Valuasi ekonomi ekosistem mangrove pesisir Teluk Benoa guna penetapan kompensasi pemanfaatan ruang dan jasa lingkungan.',
+    status: 'DIKERJAKAN',
+    lead: 'Dr. Ir. Retno Wulandari, M.Si.',
+    location: 'Kabupaten Badung & Kota Denpasar, Bali',
+    ecosystem: 'Ekosistem Mangrove & Estuari Pesisir',
+    year: 2025,
+    createdAt: '2025-08-10',
+    updatedAt: '2025-08-28 14:30',
+    hasShp: true,
+  },
+  {
+    id: 'PKS-KKPRIV',
+    code: 'PKS-KKPRIV',
+    name: 'Kajian Hutan Kota Jakarta',
+    description: 'Studi valuasi jasa penyediaan udara bersih dan retensi air hujan ruang terbuka hijau perkotaan DKI Jakarta.',
+    status: 'DRAFT',
+    lead: 'Budi Santoso, S.Kel., M.Sc.',
+    location: 'DKI Jakarta',
+    ecosystem: 'Hutan Kota & Urban Wetland',
+    year: 2025,
+    createdAt: '2025-09-01',
+    updatedAt: '2025-09-02 09:15',
+    hasShp: false,
+  },
+  {
+    id: 'PKS-UW8J6F',
+    code: 'PKS-UW8J6F',
+    name: 'Pemantauan Terumbu Karang Bali',
+    description: 'Penilaian ekonomi nilai guna langsung dan tidak langsung ekosistem terumbu karang kawasan konservasi Nusa Penida.',
+    status: 'SELESAI',
+    lead: 'Prof. Dr. Wayan Sudarma, M.Env.',
+    location: 'Klungkung & Denpasar, Bali',
+    ecosystem: 'Terumbu Karang & Padang Lamun',
+    year: 2024,
+    createdAt: '2024-11-15',
+    updatedAt: '2025-01-20 16:45',
+    submittedAt: '2025-01-18',
+    hasShp: true,
+  }
+];
