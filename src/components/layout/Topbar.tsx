@@ -2,7 +2,7 @@ import React from 'react';
 import { useProject } from '../../context/ProjectContext';
 import { AutosaveIndicator } from './AutosaveIndicator';
 import { StatusBadge } from '../common/StatusBadge';
-import { FolderGit2, ChevronRight, UserCircle, RefreshCw } from 'lucide-react';
+import { FolderGit2, ChevronRight, UserCircle, RefreshCw, ShieldCheck } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
 
 interface TopbarProps {
@@ -94,6 +94,16 @@ export const Topbar: React.FC<TopbarProps> = () => {
         >
           <RefreshCw className="w-3 h-3" />
           <span>Reset Demo</span>
+        </button>
+
+        {/* Switch to Super Admin Portal */}
+        <button
+          onClick={() => navigate('/admin/dashboard')}
+          title="Buka Dashboard Super Admin"
+          className="flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded shadow-xs transition-colors cursor-pointer"
+        >
+          <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
+          <span className="hidden sm:inline">Super Admin</span>
         </button>
 
         {/* User Peneliti profile */}

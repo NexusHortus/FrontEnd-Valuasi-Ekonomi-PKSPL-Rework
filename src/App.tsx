@@ -16,6 +16,15 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ReviewReportPage } from './pages/ReviewReportPage';
 import { ReportPrintView } from './pages/ReportPrintView';
 
+// Super Admin Workflow
+import { AdminShell } from './components/admin/AdminShell';
+import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
+import { AdminMasterDataPage } from './pages/admin/AdminMasterDataPage';
+import { AdminUsersPage } from './pages/admin/AdminUsersPage';
+import { AdminProjectsPage } from './pages/admin/AdminProjectsPage';
+import { AdminActivityPage } from './pages/admin/AdminActivityPage';
+import { AdminMessagesPage } from './pages/admin/AdminMessagesPage';
+
 export const App: React.FC = () => {
   return (
     <ProjectProvider>
@@ -24,6 +33,17 @@ export const App: React.FC = () => {
           <Routes>
             {/* Root redirect to 01 Projects */}
             <Route path="/" element={<Navigate to="/projects" replace />} />
+
+            {/* SUPER ADMIN CONSOLE */}
+            <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
+            <Route element={<AdminShell />}>
+              <Route path="/admin/dashboard" element={<AdminDashboardPage />} />
+              <Route path="/admin/master-data" element={<AdminMasterDataPage />} />
+              <Route path="/admin/users" element={<AdminUsersPage />} />
+              <Route path="/admin/projects" element={<AdminProjectsPage />} />
+              <Route path="/admin/activity" element={<AdminActivityPage />} />
+              <Route path="/admin/messages" element={<AdminMessagesPage />} />
+            </Route>
 
             {/* Standalone Project List (01 Proyek) */}
             <Route element={<AppShell />}>
