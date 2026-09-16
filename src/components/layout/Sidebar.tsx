@@ -14,7 +14,8 @@ import {
   ChevronLeft,
   ChevronRight,
   ShieldAlert,
-  Sliders
+  Sliders,
+  Home
 } from 'lucide-react';
 
 interface SidebarProps {
@@ -229,10 +230,20 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
 
         {/* Settings / Info */}
         {!collapsed && (
-          <div className="flex items-center gap-2 px-3 py-2 text-xs text-slate-400 hover:text-slate-200 cursor-pointer rounded hover:bg-slate-800/60">
-            <Sliders className="w-4 h-4" />
-            <span>Pengaturan Workflow</span>
-          </div>
+          <>
+            <div className="flex items-center gap-2 px-3 py-2 text-xs text-slate-400 hover:text-slate-200 cursor-pointer rounded hover:bg-slate-800/60">
+              <Sliders className="w-4 h-4" />
+              <span>Pengaturan Workflow</span>
+            </div>
+            
+            <NavLink
+              to="/"
+              className="flex items-center gap-2 px-3 py-2 text-xs text-slate-400 hover:text-blue-400 cursor-pointer rounded hover:bg-slate-800/60 transition-colors mt-1"
+            >
+              <Home className="w-4 h-4" />
+              <span>Kembali ke Halaman Awal</span>
+            </NavLink>
+          </>
         )}
       </div>
     </aside>

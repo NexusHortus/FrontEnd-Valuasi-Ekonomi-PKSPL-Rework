@@ -25,14 +25,19 @@ import { AdminProjectsPage } from './pages/admin/AdminProjectsPage';
 import { AdminActivityPage } from './pages/admin/AdminActivityPage';
 import { AdminMessagesPage } from './pages/admin/AdminMessagesPage';
 
+import { LandingPage } from './pages/landing/LandingPage';
+
+// Clear localStorage on page load (hard refresh) so the mock data resets to default
+localStorage.clear();
+
 export const App: React.FC = () => {
   return (
     <ProjectProvider>
       <SpreadsheetProvider>
         <BrowserRouter>
           <Routes>
-            {/* Root redirect to 01 Projects */}
-            <Route path="/" element={<Navigate to="/projects" replace />} />
+            {/* Root displays the Landing Page */}
+            <Route path="/" element={<LandingPage />} />
 
             {/* SUPER ADMIN CONSOLE */}
             <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />

@@ -6,19 +6,19 @@ export const AutosaveIndicator: React.FC = () => {
   const { isSaving, lastSavedText, saveError, isOffline, retrySave, toggleOfflineSimulation } = useSpreadsheet();
 
   return (
-    <div className="flex items-center gap-2 text-xs">
+    <div className="flex items-center gap-2 text-xs shrink-0 whitespace-nowrap">
       {/* Offline toggle simulator for testing */}
       <button
         onClick={toggleOfflineSimulation}
         title={isOffline ? "Klik untuk mensimulasikan kembali ONLINE" : "Klik untuk mensimulasikan OFFLINE"}
-        className={`px-2 py-1 rounded text-xs border flex items-center gap-1 transition-colors ${
+        className={`px-2 py-1 rounded text-xs border flex items-center gap-1.5 transition-colors shrink-0 ${
           isOffline 
             ? 'bg-amber-100 text-amber-800 border-amber-300 font-medium' 
             : 'bg-slate-50 text-slate-500 border-slate-200 hover:bg-slate-100'
         }`}
       >
-        {isOffline ? <WifiOff className="w-3.5 h-3.5 text-amber-600" /> : <span className="w-2 h-2 rounded-full bg-emerald-500"></span>}
-        <span>{isOffline ? 'Simulasi Offline' : 'Online'}</span>
+        {isOffline ? <WifiOff className="w-3.5 h-3.5 text-amber-600" /> : <span className="w-2 h-2 rounded-full bg-emerald-500 shrink-0"></span>}
+        <span className="hidden sm:inline">{isOffline ? 'Offline' : 'Online'}</span>
       </button>
 
       {/* Main Save Status */}

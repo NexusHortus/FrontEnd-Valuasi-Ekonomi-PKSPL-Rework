@@ -1,6 +1,5 @@
 import React from 'react';
 import { useProject } from '../../context/ProjectContext';
-import { AutosaveIndicator } from './AutosaveIndicator';
 import { StatusBadge } from '../common/StatusBadge';
 import { FolderGit2, ChevronRight, UserCircle, RefreshCw, ShieldCheck } from 'lucide-react';
 import { useLocation, useNavigate } from 'react-router-dom';
@@ -43,27 +42,28 @@ export const Topbar: React.FC<TopbarProps> = () => {
   };
 
   return (
-    <header className="h-16 bg-white border-b border-slate-200 px-4 md:px-6 flex items-center justify-between sticky top-0 z-30 shadow-sm">
+    <header className="h-16 bg-white border-b border-slate-200 px-4 md:px-6 flex items-center justify-between gap-3 sticky top-0 z-30 shadow-sm overflow-x-auto custom-scrollbar">
       {/* Left: Breadcrumbs & Project Selector */}
-      <div className="flex items-center gap-3">
-        <div className="flex items-center gap-2 text-sm text-slate-500 font-medium">
+      <div className="flex items-center gap-3 flex-nowrap whitespace-nowrap">
+        <div className="flex items-center gap-2 text-sm text-slate-500 font-medium shrink-0">
           <span className="text-slate-800 font-semibold tracking-tight">PKSPL</span>
           <ChevronRight className="w-4 h-4 text-slate-400" />
           <span className="hidden sm:inline">Sistem Valuasi</span>
           <ChevronRight className="w-4 h-4 text-slate-400 hidden sm:inline" />
-          <span className="text-blue-700 font-medium bg-blue-50 px-2 py-0.5 rounded text-xs">
+          <span className="text-blue-700 font-medium bg-blue-50 px-2 py-0.5 rounded text-xs shrink-0">
             {currentStepName}
           </span>
         </div>
 
         {/* Project Switcher Dropdown */}
         {selectedProj && (
-          <div className="flex items-center gap-2 pl-3 border-l border-slate-200 ml-2">
+          <div className="flex items-center gap-2 shrink-0">
+            <div className="hidden sm:block w-px h-6 bg-slate-200 mx-1"></div>
             <FolderGit2 className="w-4 h-4 text-slate-400 shrink-0" />
             <select
               value={selectedProjId}
               onChange={handleProjectSelect}
-              className="text-xs bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded px-2.5 py-1 text-slate-700 font-medium focus:outline-none focus:ring-1 focus:ring-blue-500 max-w-xs truncate cursor-pointer"
+              className="text-xs bg-slate-50 hover:bg-slate-100 border border-slate-300 rounded px-2.5 py-1 text-slate-700 font-medium focus:outline-none focus:ring-1 focus:ring-blue-500 w-[120px] sm:w-[160px] md:w-auto md:max-w-[200px] lg:max-w-xs truncate cursor-pointer shrink"
             >
               {projects.map(p => (
                 <option key={p.id} value={p.id}>
@@ -76,38 +76,20 @@ export const Topbar: React.FC<TopbarProps> = () => {
         )}
       </div>
 
-      {/* Right: Autosave Indicator, Reset Data, and User Profile */}
-      <div className="flex items-center gap-3">
-        {/* Autosave badge */}
-        <AutosaveIndicator />
-
-        {/* Reset Mock State Button */}
-        <button
-          onClick={() => {
-            if (confirm('Reset ulang data prototype ke kondisi awal mock data?')) {
-              resetAllData();
-              window.location.reload();
-            }
-          }}
-          title="Reset semua data mock ke default"
-          className="hidden md:flex items-center gap-1 text-xs text-slate-500 hover:text-slate-700 px-2 py-1 rounded hover:bg-slate-100 border border-slate-200"
-        >
-          <RefreshCw className="w-3 h-3" />
-          <span>Reset Demo</span>
-        </button>
-
+      {/* Right: User Profile */}
+      <div className="flex items-center gap-3 shrink-0 ml-auto pl-3">
         {/* Switch to Super Admin Portal */}
         <button
           onClick={() => navigate('/admin/dashboard')}
           title="Buka Dashboard Super Admin"
-          className="flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 px-2.5 py-1 rounded shadow-xs transition-colors cursor-pointer"
+          className="flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 px-2.5 py-1.5 rounded shadow-sm transition-colors cursor-pointer shrink-0"
         >
           <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
           <span className="hidden sm:inline">Super Admin</span>
         </button>
 
         {/* User Peneliti profile */}
-        <div className="flex items-center gap-2.5 pl-3 border-l border-slate-200">
+        <div className="flex items-center gap-2.5 pl-3 border-l border-slate-200 shrink-0">
           <div className="w-8 h-8 rounded bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">
             P
           </div>

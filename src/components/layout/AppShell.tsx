@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import { Sidebar } from './Sidebar';
 import { Topbar } from './Topbar';
+import { AutosaveIndicator } from './AutosaveIndicator';
 import { useProject } from '../../context/ProjectContext';
 import { AlertCircle, ArrowRight, X } from 'lucide-react';
 
@@ -71,6 +72,11 @@ export const AppShell: React.FC = () => {
         <main className="flex-1 overflow-y-auto bg-slate-50">
           <Outlet />
         </main>
+
+        {/* Global Bottom Status Bar */}
+        <footer className="bg-white border-t border-slate-200 px-4 py-2 flex items-center justify-end shrink-0 z-20 shadow-[0_-2px_4px_rgba(0,0,0,0.02)]">
+          <AutosaveIndicator />
+        </footer>
       </div>
     </div>
   );
