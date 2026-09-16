@@ -428,6 +428,8 @@ export const AdminDashboardPage: React.FC = () => {
                 fillOpacity={1}
                 fill="url(#tevGradient)"
                 name="akumulasiTevMiliar"
+                dot={{ r: 4.5, fill: '#2563EB', stroke: '#FFFFFF', strokeWidth: 2 }}
+                activeDot={{ r: 6.5, fill: '#1D4ED8', stroke: '#FFFFFF', strokeWidth: 2 }}
               />
             </AreaChart>
           </ResponsiveContainer>
