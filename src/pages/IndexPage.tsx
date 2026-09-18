@@ -20,6 +20,7 @@ import {
   Tag
 } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../context/AuthContext';
 
 export const IndexPage: React.FC = () => {
   const {
@@ -35,6 +36,7 @@ export const IndexPage: React.FC = () => {
   } = useProject();
 
   const navigate = useNavigate();
+  const { isAdmin } = useAuth();
 
   // Search & Filter state
   const [searchQuery, setSearchQuery] = useState('');
@@ -134,13 +136,15 @@ export const IndexPage: React.FC = () => {
           </p>
         </div>
 
-        <button
-          onClick={handleOpenCreateModal}
-          className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-xs md:text-sm font-semibold flex items-center gap-1.5 transition-colors shadow-xs self-start sm:self-auto"
-        >
-          <Plus className="w-4 h-4" />
-          <span>+ Buat Index</span>
-        </button>
+        {!isAdmin && (
+          <button
+            onClick={handleOpenCreateModal}
+            className="px-4 py-2 bg-blue-600 hover:bg-blue-700 text-white rounded-md text-xs md:text-sm font-semibold flex items-center gap-1.5 transition-colors shadow-xs self-start sm:self-auto"
+          >
+            <Plus className="w-4 h-4" />
+            <span>+ Buat Index</span>
+          </button>
+        )}
       </div>
 
       {/* Info Notice: Index Independence */}
@@ -288,13 +292,23 @@ export const IndexPage: React.FC = () => {
 
                       {/* Action */}
                       <td className="py-3 px-4 text-right space-x-1">
-                        <button
-                          onClick={() => navigate(`/projects/${activeProjectId}/services-methods?area=${item.landCoverId || item.id}`)}
-                          className="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold rounded text-[11px] border border-blue-200 transition-colors inline-flex items-center gap-1"
-                        >
-                          <span>Atur Jasa & Metode</span>
-                          <ArrowRight className="w-3 h-3" />
-                        </button>
+                        {isAdmin ? (
+                          <button
+                            onClick={() => navigate(`/projects/${activeProjectId}/valuation-data?area=${item.landCoverId || item.id}`)}
+                            className="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold rounded text-[11px] border border-blue-200 transition-colors inline-flex items-center gap-1"
+                          >
+                            <span>Buka Data Valuasi</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                        ) : (
+                          <button
+                            onClick={() => navigate(`/projects/${activeProjectId}/services-methods?area=${item.landCoverId || item.id}`)}
+                            className="px-2.5 py-1 bg-blue-50 hover:bg-blue-100 text-blue-700 font-semibold rounded text-[11px] border border-blue-200 transition-colors inline-flex items-center gap-1"
+                          >
+                            <span>Atur Jasa & Metode</span>
+                            <ArrowRight className="w-3 h-3" />
+                          </button>
+                        )}
 
                         <button
                           onClick={() => {

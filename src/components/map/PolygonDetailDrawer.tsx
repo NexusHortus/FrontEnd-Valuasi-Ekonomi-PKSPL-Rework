@@ -4,6 +4,7 @@ import { formatIDR, formatNumber } from '../../utils/formatter';
 import { X, ExternalLink, ArrowRight, Check, MapPin, Tag, AlertTriangle, Plus, Link2, Unlink } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { useProject } from '../../context/ProjectContext';
+import { useAuth } from '../../context/AuthContext';
 
 interface PolygonDetailDrawerProps {
   polygon: LandCoverPolygon | null;
@@ -16,6 +17,7 @@ export const PolygonDetailDrawer: React.FC<PolygonDetailDrawerProps> = ({
   onClose,
 }) => {
   const navigate = useNavigate();
+  const { isAdmin } = useAuth();
   const { 
     activeProjectId, 
     indices, 
@@ -26,6 +28,7 @@ export const PolygonDetailDrawer: React.FC<PolygonDetailDrawerProps> = ({
 
   const [selectedLinkIndexId, setSelectedLinkIndexId] = useState<string>('');
   const [actionSuccessMsg, setActionSuccessMsg] = useState<string | null>(null);
+  const [reminderSent, setReminderSent] = useState(false);
 
   if (!polygon) return null;
 
@@ -149,44 +152,70 @@ export const PolygonDetailDrawer: React.FC<PolygonDetailDrawerProps> = ({
               <span>⚠ Area Belum Memiliki Index</span>
             </div>
             <p className="text-[11px] text-amber-800 leading-relaxed">
-              Area poligon ini belum terikat dengan kode index perhitungan. Buat index baru atau hubungkan ke index yang sudah ada:
+              {isAdmin
+                ? 'Area poligon ini belum terikat dengan kode index perhitungan. Anda dapat mengirim pengingat ke peneliti.'
+                : 'Area poligon ini belum terikat dengan kode index perhitungan. Buat index baru atau hubungkan ke index yang sudah ada:'}
             </p>
             <div className="space-y-2 pt-1">
-              <button
-                onClick={handleCreateNewIndex}
-                className="w-full py-1.5 px-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>+ Buat Index dari Area Ini</span>
-              </button>
-
-              <div className="pt-1.5 border-t border-amber-200/80">
-                <label className="text-[10px] uppercase font-bold text-amber-900 mb-1 block">
-                  Atau Hubungkan ke Index:
-                </label>
-                <div className="flex gap-1.5">
-                  <select
-                    value={selectedLinkIndexId}
-                    onChange={(e) => setSelectedLinkIndexId(e.target.value)}
-                    className="flex-1 text-xs bg-white border border-amber-300 rounded px-2 py-1 text-slate-800 focus:outline-none"
-                  >
-                    <option value="">-- Pilih Index --</option>
-                    {indices.map(i => (
-                      <option key={i.id} value={i.id}>
-                        {i.code} - {i.name} ({i.spatialStatus === 'connected' ? 'Terhubung' : 'Draft'})
-                      </option>
-                    ))}
-                  </select>
+              {isAdmin ? (
+                <>
                   <button
-                    disabled={!selectedLinkIndexId}
-                    onClick={handleLinkExisting}
-                    className="px-2.5 py-1 bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white text-xs font-semibold rounded transition-colors cursor-pointer flex items-center gap-1"
+                    onClick={() => {
+                      setReminderSent(true);
+                      setTimeout(() => setReminderSent(false), 3000);
+                    }}
+                    disabled={reminderSent}
+                    className="w-full py-1.5 px-2.5 bg-blue-600 hover:bg-blue-700 disabled:bg-blue-400 text-white rounded text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
                   >
-                    <Link2 className="w-3 h-3" />
-                    <span>Hubungkan</span>
+                    {reminderSent ? (
+                      <>
+                        <Check className="w-3.5 h-3.5" />
+                        <span>Pengingat Sudah Terkirim</span>
+                      </>
+                    ) : (
+                      <span>Ingatkan ke Peneliti</span>
+                    )}
                   </button>
-                </div>
-              </div>
+                </>
+              ) : (
+                <>
+                  <button
+                    onClick={handleCreateNewIndex}
+                    className="w-full py-1.5 px-2.5 bg-amber-600 hover:bg-amber-700 text-white rounded text-xs font-semibold flex items-center justify-center gap-1.5 transition-colors cursor-pointer shadow-2xs"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>+ Buat Index dari Area Ini</span>
+                  </button>
+
+                  <div className="pt-1.5 border-t border-amber-200/80">
+                    <label className="text-[10px] uppercase font-bold text-amber-900 mb-1 block">
+                      Atau Hubungkan ke Index:
+                    </label>
+                    <div className="flex gap-1.5">
+                      <select
+                        value={selectedLinkIndexId}
+                        onChange={(e) => setSelectedLinkIndexId(e.target.value)}
+                        className="flex-1 text-xs bg-white border border-amber-300 rounded px-2 py-1 text-slate-800 focus:outline-none"
+                      >
+                        <option value="">-- Pilih Index --</option>
+                        {indices.map(i => (
+                          <option key={i.id} value={i.id}>
+                            {i.code} - {i.name} ({i.spatialStatus === 'connected' ? 'Terhubung' : 'Draft'})
+                          </option>
+                        ))}
+                      </select>
+                      <button
+                        disabled={!selectedLinkIndexId}
+                        onClick={handleLinkExisting}
+                        className="px-2.5 py-1 bg-slate-800 hover:bg-slate-900 disabled:opacity-50 text-white text-xs font-semibold rounded transition-colors cursor-pointer flex items-center gap-1"
+                      >
+                        <Link2 className="w-3 h-3" />
+                        <span>Hubungkan</span>
+                      </button>
+                    </div>
+                  </div>
+                </>
+              )}
             </div>
           </div>
         )}

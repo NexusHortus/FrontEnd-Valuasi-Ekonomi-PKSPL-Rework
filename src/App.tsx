@@ -16,7 +16,6 @@ import { AnalyticsPage } from './pages/AnalyticsPage';
 import { ReviewReportPage } from './pages/ReviewReportPage';
 import { ReportPrintView } from './pages/ReportPrintView';
 
-// Super Admin Workflow
 import { AdminShell } from './components/admin/AdminShell';
 import { AdminDashboardPage } from './pages/admin/AdminDashboardPage';
 import { AdminMasterDataPage } from './pages/admin/AdminMasterDataPage';
@@ -26,18 +25,24 @@ import { AdminActivityPage } from './pages/admin/AdminActivityPage';
 import { AdminMessagesPage } from './pages/admin/AdminMessagesPage';
 
 import { LandingPage } from './pages/landing/LandingPage';
+import LoginPage from './pages/landing/LoginPage';
+import RegisterPage from './pages/landing/RegisterPage';
+import { AuthProvider } from './context/AuthContext';
 
 // Clear localStorage on page load (hard refresh) so the mock data resets to default
 localStorage.clear();
 
 export const App: React.FC = () => {
   return (
+    <AuthProvider>
     <ProjectProvider>
       <SpreadsheetProvider>
         <BrowserRouter>
           <Routes>
             {/* Root displays the Landing Page */}
             <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/register" element={<RegisterPage />} />
 
             {/* SUPER ADMIN CONSOLE */}
             <Route path="/admin" element={<Navigate to="/admin/dashboard" replace />} />
@@ -85,6 +90,7 @@ export const App: React.FC = () => {
         </BrowserRouter>
       </SpreadsheetProvider>
     </ProjectProvider>
+    </AuthProvider>
   );
 };
 

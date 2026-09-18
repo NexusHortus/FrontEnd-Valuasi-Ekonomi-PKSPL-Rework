@@ -4,9 +4,11 @@ import { formatIDR, formatNumber } from '../../utils/formatter';
 import { StatusBadge } from '../../components/common/StatusBadge';
 import { FolderKanban, Plus, Search, Eye, Filter, ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAuth } from '../../context/AuthContext';
 
 export const AdminProjectsPage: React.FC = () => {
   const navigate = useNavigate();
+  const { setRole } = useAuth();
   const [searchTerm, setSearchTerm] = useState('');
   const [statusFilter, setStatusFilter] = useState('ALL');
 
@@ -127,7 +129,7 @@ export const AdminProjectsPage: React.FC = () => {
                   </td>
                   <td className="py-3 px-4 text-center">
                     <button
-                      onClick={() => navigate(`/projects/${p.id}/maps`)}
+                      onClick={() => { setRole('admin'); navigate(`/projects/${p.id}/maps`); }}
                       className="px-2.5 py-1 bg-slate-100 hover:bg-blue-50 text-slate-700 hover:text-blue-700 rounded border border-slate-200 text-[11px] font-semibold transition-colors inline-flex items-center gap-1 cursor-pointer"
                     >
                       <Eye className="w-3 h-3" />

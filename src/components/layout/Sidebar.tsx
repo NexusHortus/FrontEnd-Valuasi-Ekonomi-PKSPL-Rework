@@ -1,6 +1,7 @@
 import React from 'react';
 import { NavLink, useLocation, useParams } from 'react-router-dom';
 import { useProject } from '../../context/ProjectContext';
+import { useAuth } from '../../context/AuthContext';
 import {
   FolderKanban,
   Map,
@@ -25,12 +26,13 @@ interface SidebarProps {
 
 export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
   const { activeProject, activeProjectId, simulateAnalystRejection } = useProject();
+  const { isAdmin } = useAuth();
   const location = useLocation();
   const params = useParams<{ projectId?: string }>();
   const projId = params.projectId || activeProjectId || 'PKS-994KY1';
 
   // Navigation workflow items (9 Steps)
-  const workflowItems = [
+  const allWorkflowItems = [
     {
       num: '01',
       title: 'Proyek',
@@ -95,6 +97,11 @@ export const Sidebar: React.FC<SidebarProps> = ({ collapsed, onToggle }) => {
       match: (p: string) => p.includes('/review'),
     },
   ];
+
+  // Admin users cannot see "01 Proyek" step
+  const workflowItems = isAdmin
+    ? allWorkflowItems.filter(item => item.num !== '01')
+    : allWorkflowItems;
 
   // Helper to determine status marker (✓ completed, ● current, ○ pending)
   const getStepStatus = (itemIndex: number, isCurrent: boolean) => {

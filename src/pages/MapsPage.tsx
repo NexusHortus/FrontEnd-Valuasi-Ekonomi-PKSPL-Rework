@@ -12,9 +12,11 @@ import {
   Info,
   ArrowRight
 } from 'lucide-react';
+import { useAuth } from '../context/AuthContext';
 
 export const MapsPage: React.FC = () => {
   const navigate = useNavigate();
+  const { isAdmin } = useAuth();
   const { projectId } = useParams<{ projectId?: string }>();
   const {
     projects,
@@ -99,7 +101,7 @@ export const MapsPage: React.FC = () => {
         </div>
 
         {/* Toolbar Top Action: Only displayed when SHP is available */}
-        {hasShp && (
+        {hasShp && !isAdmin && (
           <div className="flex items-center flex-wrap gap-2">
             <button
               onClick={() => setIsShpModalOpen(true)}
@@ -137,19 +139,23 @@ export const MapsPage: React.FC = () => {
             </p>
 
             {/* [ + Upload SHP ] */}
-            <button
-              type="button"
-              onClick={() => setIsShpModalOpen(true)}
-              className="mt-6 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs md:text-sm font-semibold shadow-xs flex items-center gap-2 mx-auto transition-colors cursor-pointer"
-            >
-              <Upload className="w-4 h-4" />
-              <span>+ Upload SHP</span>
-            </button>
+            {!isAdmin && (
+              <>
+                <button
+                  type="button"
+                  onClick={() => setIsShpModalOpen(true)}
+                  className="mt-6 px-5 py-2.5 bg-blue-600 hover:bg-blue-700 text-white rounded-lg text-xs md:text-sm font-semibold shadow-xs flex items-center gap-2 mx-auto transition-colors cursor-pointer"
+                >
+                  <Upload className="w-4 h-4" />
+                  <span>+ Upload SHP</span>
+                </button>
 
-            {/* Format yang didukung */}
-            <p className="text-[11px] text-slate-400 mt-2 font-medium">
-              Format yang didukung: <strong>ZIP Shapefile</strong> • <strong>WGS 1984</strong>
-            </p>
+                {/* Format yang didukung */}
+                <p className="text-[11px] text-slate-400 mt-2 font-medium">
+                  Format yang didukung: <strong>ZIP Shapefile</strong> • <strong>WGS 1984</strong>
+                </p>
+              </>
+            )}
 
             {/* Divider: atau */}
             <div className="relative my-6 max-w-xs mx-auto">

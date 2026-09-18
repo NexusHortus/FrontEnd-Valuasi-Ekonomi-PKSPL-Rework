@@ -19,6 +19,7 @@ import {
   Pencil,
   Lock
 } from 'lucide-react';
+import { useAuth } from '../../context/AuthContext';
 
 interface DynamicServiceSectionProps {
   projectId?: string;
@@ -56,6 +57,7 @@ export const DynamicServiceSection: React.FC<DynamicServiceSectionProps> = ({
   highlightedRowId,
 }) => {
   const { activeProjectId } = useProject();
+  const { isAdmin } = useAuth();
   const currentProjId = projectId || activeProjectId;
   const {
     getRows,
@@ -257,7 +259,8 @@ export const DynamicServiceSection: React.FC<DynamicServiceSectionProps> = ({
                 <select
                   value={methodId}
                   onChange={(e) => onMethodChange(e.target.value)}
-                  className="bg-slate-50 border border-slate-300 rounded px-2.5 py-1 text-slate-800 font-medium focus:ring-1 focus:ring-blue-500 focus:outline-none cursor-pointer"
+                  disabled={isAdmin}
+                  className={`bg-slate-50 border border-slate-300 rounded px-2.5 py-1 text-slate-800 font-medium focus:ring-1 focus:ring-blue-500 focus:outline-none ${isAdmin ? 'opacity-60 cursor-not-allowed' : 'cursor-pointer'}`}
                 >
                   {availableMethods.map((m) => (
                     <option key={m.id} value={m.id}>
@@ -269,25 +272,27 @@ export const DynamicServiceSection: React.FC<DynamicServiceSectionProps> = ({
 
               {/* Flora / Fauna Toggle for Provisioning */}
               {serviceId === 'provisioning' && onBiotaChange && (
-                <div className="flex items-center gap-2 pl-3 border-l border-slate-200">
+                <div className={`flex items-center gap-2 pl-3 border-l border-slate-200 ${isAdmin ? 'opacity-60' : ''}`}>
                   <span className="text-slate-500 font-semibold">Biota:</span>
                   <div className="flex items-center gap-2">
-                    <label className="flex items-center gap-1 cursor-pointer font-medium text-slate-700">
+                    <label className={`flex items-center gap-1 font-medium text-slate-700 ${isAdmin ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
                       <input
                         type="radio"
                         name={`biota-sec-${serviceId}-${areaId}`}
                         checked={biota === 'flora'}
                         onChange={() => onBiotaChange('flora')}
+                        disabled={isAdmin}
                         className="text-blue-600 focus:ring-blue-500"
                       />
                       <span>Flora</span>
                     </label>
-                    <label className="flex items-center gap-1 cursor-pointer font-medium text-slate-700">
+                    <label className={`flex items-center gap-1 font-medium text-slate-700 ${isAdmin ? 'cursor-not-allowed' : 'cursor-pointer'}`}>
                       <input
                         type="radio"
                         name={`biota-sec-${serviceId}-${areaId}`}
                         checked={biota === 'fauna'}
                         onChange={() => onBiotaChange('fauna')}
+                        disabled={isAdmin}
                         className="text-blue-600 focus:ring-blue-500"
                       />
                       <span>Fauna</span>
@@ -299,25 +304,29 @@ export const DynamicServiceSection: React.FC<DynamicServiceSectionProps> = ({
 
             {/* Right: Section Action Buttons: [ + Tambah Baris ] [ + Tambah Kolom ] [ Import Excel ] [ Download Template ] */}
             <div className="flex items-center flex-wrap gap-2">
-              <button
-                onClick={handleAddRow}
-                className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold flex items-center gap-1 transition-colors shadow-xs cursor-pointer"
-              >
-                <Plus className="w-3.5 h-3.5" />
-                <span>+ Tambah Baris</span>
-              </button>
+              {!isAdmin && (
+                <>
+                  <button
+                    onClick={handleAddRow}
+                    className="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white rounded text-xs font-semibold flex items-center gap-1 transition-colors shadow-xs cursor-pointer"
+                  >
+                    <Plus className="w-3.5 h-3.5" />
+                    <span>+ Tambah Baris</span>
+                  </button>
 
-              <button
-                onClick={() => {
-                  setEditingColumn(null);
-                  setIsColumnModalOpen(true);
-                }}
-                className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
-                title="Tambah variabel atau kolom baru ke lembar kerja ini"
-              >
-                <Columns3 className="w-3.5 h-3.5 text-blue-600" />
-                <span>+ Tambah Kolom</span>
-              </button>
+                  <button
+                    onClick={() => {
+                      setEditingColumn(null);
+                      setIsColumnModalOpen(true);
+                    }}
+                    className="px-3 py-1.5 bg-white hover:bg-slate-100 text-slate-700 border border-slate-300 rounded text-xs font-semibold flex items-center gap-1 transition-colors cursor-pointer"
+                    title="Tambah variabel atau kolom baru ke lembar kerja ini"
+                  >
+                    <Columns3 className="w-3.5 h-3.5 text-blue-600" />
+                    <span>+ Tambah Kolom</span>
+                  </button>
+                </>
+              )}
 
               <button
                 onClick={() => onOpenImportModal(serviceName, schema.methodName, biota)}

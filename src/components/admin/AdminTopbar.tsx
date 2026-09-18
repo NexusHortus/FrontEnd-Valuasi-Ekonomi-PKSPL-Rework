@@ -93,17 +93,6 @@ export const AdminTopbar: React.FC<AdminTopbarProps> = ({
           <span>Sistem Normal</span>
         </div>
 
-        {/* Switch to Peneliti Role Button */}
-        <button
-          onClick={() => navigate('/projects')}
-          className="hidden sm:flex items-center gap-1.5 px-3 py-1.5 rounded-lg text-xs font-semibold text-slate-700 bg-slate-100 hover:bg-slate-200 border border-slate-200 transition-colors cursor-pointer"
-          title="Beralih ke tampilan kerja Peneliti"
-        >
-          <Sparkles className="w-3.5 h-3.5 text-blue-600" />
-          <span>Role Peneliti</span>
-          <ExternalLink className="w-3 h-3 text-slate-400" />
-        </button>
-
         {/* Notifications Dropdown */}
         <div ref={notifRef} className="relative">
           <button

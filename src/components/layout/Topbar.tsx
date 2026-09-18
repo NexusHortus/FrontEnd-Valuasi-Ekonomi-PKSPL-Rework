@@ -78,16 +78,6 @@ export const Topbar: React.FC<TopbarProps> = () => {
 
       {/* Right: User Profile */}
       <div className="flex items-center gap-3 shrink-0 ml-auto pl-3">
-        {/* Switch to Super Admin Portal */}
-        <button
-          onClick={() => navigate('/admin/dashboard')}
-          title="Buka Dashboard Super Admin"
-          className="flex items-center gap-1.5 text-xs font-semibold text-white bg-slate-900 hover:bg-slate-800 px-2.5 py-1.5 rounded shadow-sm transition-colors cursor-pointer shrink-0"
-        >
-          <ShieldCheck className="w-3.5 h-3.5 text-blue-400" />
-          <span className="hidden sm:inline">Super Admin</span>
-        </button>
-
         {/* User Peneliti profile */}
         <div className="flex items-center gap-2.5 pl-3 border-l border-slate-200 shrink-0">
           <div className="w-8 h-8 rounded bg-blue-100 text-blue-700 flex items-center justify-center font-bold text-sm">
